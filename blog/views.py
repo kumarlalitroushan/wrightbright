@@ -6,13 +6,20 @@ from .permissions import OwnerOrAdmin
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+from .forms import BlogForm
+from django.core.paginator import Paginator
 
 
 # Create your views here.
 
 def home(request):
-    blogs = Blog.objects.all().order_by('-created_date')[:5]  # Get the latest 5 blogs
-    return render(request, 'blog/home.html', {'blogs': blogs})
+    blog_list = Blog.objects.all().order_by('-created_date')
+    paginator = Paginator(blog_list, 5)  # show 5 blogs per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'blog/home.html', {'page_obj': page_obj})
 
 def signup_view(request):
     if request.method == 'POST':

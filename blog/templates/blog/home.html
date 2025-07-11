@@ -1,11 +1,24 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<h2>Recent Blogs</h2>
-{% for blog in blogs %}
+<h2>All Blogs</h2>
+
+{% for blog in page_obj %}
   <div class="blog">
     <h3>{{ blog.title }}</h3>
     <p>{{ blog.body|slice:":150" }}...</p>
     <small>by {{ blog.author }} on {{ blog.created_date }}</small>
   </div>
 {% endfor %}
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+  {% endif %}
+</div>
 {% endblock %}
