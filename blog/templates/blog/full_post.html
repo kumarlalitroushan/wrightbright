@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h2>complete Blog post</h2>
+  <div class="blog">
+    <h3>{{ blog.title }}</h3>
+    <p>{{ blog.body }}</p>
+    <small>by {{ blog.author }} on {{ blog.created_date }}</small>
+  </div>
+{% endblock %}
