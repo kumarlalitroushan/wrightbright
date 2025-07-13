@@ -4,9 +4,10 @@
 
 {% for blog in page_obj %}
   <div class="blog">
-    <h3>{{ blog.title }}</h3>
+    <h3>{{blog.id}}. {{ blog.title }}</h3>
     <p>{{ blog.body|slice:":150" }}...</p>
     <small>by {{ blog.author }} on {{ blog.created_date }}</small>
+    <a href="{% url 'post-detail' blog.id %}">Read more</a>
   </div>
 {% endfor %}
 

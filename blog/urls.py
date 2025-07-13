@@ -14,4 +14,6 @@ urlpatterns = [
     path('create/', views.create_blog, name='create_blog'),
     path('myblogs/', views.my_blogs, name='my_blogs'),
     path('api/', include(router.urls)),
+    path('post/<int:id>/', views.full_blog_post, name='post-detail'),
+    path('post/<int:id>/delete', views.post_delete_view, name='post-delete')
 ]

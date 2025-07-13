@@ -65,6 +65,18 @@ def my_blogs(request):
     blogs = Blog.objects.filter(author=request.user)
     return render(request, 'blog/my_blogs.html', {'blogs': blogs})
 
+def full_blog_post(request, id):
+
+    blog = Blog.objects.get(id=id)
+    return render(request, 'blog/full_post.html', {'blog': blog})
+
+@login_required
+def post_delete_view(request, id):
+    blog = Blog.objects.get(id=id)
+    if request.method == 'POST':
+        if request.user == blog.author or request.user.is_staff:
+            blog.delete()
+        return redirect('my_blogs')
 
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('-created_date')
