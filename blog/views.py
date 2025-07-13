@@ -1,15 +1,11 @@
 from django.shortcuts import redirect, render
-from rest_framework import viewsets, permissions
 from .models import Blog
-from .serializer import BlogSerializer
-from .permissions import OwnerOrAdmin
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from .forms import BlogForm
 from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
-
 
 # Create your views here.
 
@@ -93,17 +89,3 @@ def post_update_view(request, id):
         else:
             form = BlogForm(instance=blog)
         return render(request, 'blog/update_blog.html', {'form': form})
-
-class BlogViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all().order_by('-created_date')
-    serializer_class = BlogSerializer
-
-    def get_permissions(self):
-        if self.action in ['update', 'partial_update', 'destroy']:
-            return [permissions.IsAuthenticated(), OwnerOrAdmin()]
-        elif self.action in ['create']:
-            return [permissions.IsAuthenticated()]
-        return [permissions.AllowAny()]
-    
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)

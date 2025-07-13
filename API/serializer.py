@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Blog
+from blog.models import Blog
 
 # with the use of serializer class we can generate a json response for the blog model in the API
 class BlogSerializer(serializers.ModelSerializer):
