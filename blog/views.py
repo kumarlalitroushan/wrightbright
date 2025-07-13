@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from .forms import BlogForm
 from django.core.paginator import Paginator
+from django.http import HttpResponseForbidden
 
 
 # Create your views here.
@@ -77,6 +78,21 @@ def post_delete_view(request, id):
         if request.user == blog.author or request.user.is_staff:
             blog.delete()
         return redirect('my_blogs')
+    
+@login_required
+def post_update_view(request, id):
+    blog = Blog.objects.get(id=id)
+    if blog.author != request.user and not request.user.is_staff:
+        return HttpResponseForbidden("You are not allowed to edit this blog.")
+    else:
+        if request.method == 'POST':
+            form = BlogForm(request.POST, instance=blog)
+            if form.is_valid():
+                form.save()
+                return redirect('my_blogs')
+        else:
+            form = BlogForm(instance=blog)
+        return render(request, 'blog/update_blog.html', {'form': form})
 
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('-created_date')

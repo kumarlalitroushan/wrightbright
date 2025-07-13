@@ -1,7 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 <h2>All Blogs</h2>
-
 {% for blog in page_obj %}
   <div class="blog">
     <h3>{{blog.id}}. {{ blog.title }}</h3>
