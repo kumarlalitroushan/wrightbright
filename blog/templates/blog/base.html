@@ -12,6 +12,7 @@
             <a href="/create/">New Blog</a>
             <a href="/myblogs/">My Blogs</a>
             <a href="/logout/">Logout</a>
+            <span>Welcome, {{ user.username }}</span>
         {% else %}
             <a href="/login/">Login</a>
             <a href="/signup/">Signup</a>
