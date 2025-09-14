@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import ssl
+import pandas as pd
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +28,6 @@ SECRET_KEY = 'django-insecure-oy(=we9wx0*bq2a&f(fmr$v$5l-4^0^p5dak94&$8#epb5sfm9
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -131,3 +132,25 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
 }
+
+# password reset
+
+cred_csv = pd.read_csv('writebright/credentials.csv')
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = f"{cred_csv['email'][0]}"
+EMAIL_HOST_PASSWORD = f"{cred_csv['password'][0]}"
+DEFAULT_FROM_EMAIL = f"{cred_csv['email'][0]}"
+
+print(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+
+EMAIL_SSL_CERTFILE = None
+EMAIL_SSL_KEYFILE = None
+EMAIL_TIMEOUT = 60
+
+EMAIL_SSL_CONTEXT = ssl.create_default_context()
+EMAIL_SSL_CONTEXT.check_hostname = False
+EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE

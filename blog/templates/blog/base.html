@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>WriteBright</title>
-    <link rel="stylesheet" href="/static/blog/styles.css">
+    <link rel="stylesheet" href="/static/blog/style.css">
 </head>
 <body>
     <nav>
@@ -12,7 +12,15 @@
             <a href="/create/">New Blog</a>
             <a href="/myblogs/">My Blogs</a>
             <a href="/logout/">Logout</a>
-            <span>Welcome, {{ user.username }}</span>
+            <span id="welcome-message" style="
+    font-style: italic; 
+    color: skyblue; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    margin-left: auto; 
+    display: block; 
+    text-align: right;">
+  Welcome, {{ user.username }}
+</span>
         {% else %}
             <a href="/login/">Login</a>
             <a href="/signup/">Signup</a>
