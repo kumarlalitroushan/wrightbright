@@ -1,16 +1,17 @@
 from django.shortcuts import redirect, render
 from .models import Blog
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from .forms import BlogForm
 from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
+from .forms import CustomUserCreationForm
 
 # Create your views here.
 
 def home(request):
-    blog_list = Blog.objects.all().order_by('-created_date')
+    blog_list = Blog.objects.all().order_by('created_date')
     paginator = Paginator(blog_list, 5)  # show 5 blogs per page
 
     page_number = request.GET.get('page')
@@ -20,13 +21,13 @@ def home(request):
 
 def signup_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user) # it will automatically log in the user after signup
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'blog/signup.html', {'form': form})
 
 def login_view(request):
@@ -51,6 +52,7 @@ def create_blog(request):
         if form.is_valid():
             blog = form.save(commit=False)
             blog.author = request.user
+            blog.title = blog.title.upper()
             blog.save()
             return redirect('my_blogs')
     else:
@@ -88,4 +90,4 @@ def post_update_view(request, id):
                 return redirect('my_blogs')
         else:
             form = BlogForm(instance=blog)
-        return render(request, 'blog/update_blog.html', {'form': form})
+        return render(request, 'blog/update_blog.html', {'form': form})  
