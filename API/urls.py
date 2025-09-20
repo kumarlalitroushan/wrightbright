@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'blogs', BlogViewSet, basename='blog')
 
 urlpatterns = [
-path('api/', include(router.urls)),
+    path('', include(router.urls)), 
 ]

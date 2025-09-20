@@ -1,15 +1,16 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics
 from blog.models import Blog
 from .serializer import BlogSerializer
 from .permissions import OwnerOrAdmin
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 print(Blog.objects.all())
 
 class BlogViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all().order_by('-created_date')
+    queryset = Blog.objects.all().order_by('created_date')
     serializer_class = BlogSerializer
 
     def get_permissions(self):
