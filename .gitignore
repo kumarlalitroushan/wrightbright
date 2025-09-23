@@ -1,0 +1,62 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+
+# Environment variables
+.env
+.venv/
+env/
+venv/
+ENV/
+.env.local
+.env.*.local
+
+# VS Code / PyCharm / IDEs
+.vscode/
+.idea/
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.dll
+*.dylib
+*.exe
+*.o
+*.a
+*.out
+*.class
+
+# Unit test / coverage reports
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+htmlcov/
+
+# Pip installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django static files
+staticfiles/
+static/
+
+# MacOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Other
+*.swp
+*.swo
+
