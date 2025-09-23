@@ -7,8 +7,6 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
-print(Blog.objects.all())
-
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('created_date')
     serializer_class = BlogSerializer

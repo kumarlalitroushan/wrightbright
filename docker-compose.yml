@@ -1,11 +1,30 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:15
+    container_name: writebright_db
+    environment:
+      POSTGRES_DB: writebright
+      POSTGRES_USER: writebrightuser
+      POSTGRES_PASSWORD: writebrightpass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   web:
     build: .
     container_name: writebright_web
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://writebrightuser:writebrightpass@db:5432/writebright
+
+volumes:
+  postgres_data:
